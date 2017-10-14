@@ -8,7 +8,8 @@ public class leader : MonoBehaviour {
     GameObject target;
     GameObject holder;
     public GameObject[] paths;
-
+    public int mode;
+    public GameObject[] allFlockers;
 
 
 
@@ -23,7 +24,7 @@ public class leader : MonoBehaviour {
         holder = findTarget();
         if (holder != null) {
             target = holder;
-            transform.Translate(Vector3.right * Time.deltaTime * 2);
+            transform.Translate(Vector3.right * Time.deltaTime * speed);
         }
 
         //calculate the angle
