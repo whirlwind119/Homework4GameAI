@@ -9,7 +9,6 @@ public class leader : MonoBehaviour {
     GameObject holder;
     public GameObject[] paths;
     public int mode;
-    public GameObject[] allFlockers;
 
 
 
