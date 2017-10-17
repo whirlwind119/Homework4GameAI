@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PathScript : MonoBehaviour {
 
-    bool found = false;
+    public bool found = false;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +34,7 @@ public class PathScript : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-       if(other.gameObject.tag == "leader")
+       if(other.gameObject.tag == "leader" || other.gameObject.tag == "boid")
         {
             this.changeStatus();
         }

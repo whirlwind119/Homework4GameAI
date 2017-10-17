@@ -7,6 +7,7 @@ public class FlockScript : MonoBehaviour {
     public GameObject manager;
     public Vector2 location = Vector2.zero;
     public Vector2 velocity;
+    public GameObject Leader;
     Vector2 goalPos = Vector2.zero;
     Vector2 currentForce;
 
@@ -14,6 +15,7 @@ public class FlockScript : MonoBehaviour {
 	void Start () {
         velocity = new Vector2(Random.Range(0.01f, 0.1f), Random.Range(0.01f, 0.1f));
         location = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
+        Leader = GameObject.Find("leader");
     }
 
     Vector2 seek(Vector2 target) {
@@ -84,7 +86,7 @@ public class FlockScript : MonoBehaviour {
         location = this.transform.position;
         velocity = this.GetComponent<Rigidbody2D>().velocity;
 
-        if (manager.GetComponent<GeneralManager>().obedient && Random.Range(0, 50) <= 1) {
+        if (manager.GetComponent<GeneralManager>().obedient) {
             Vector2 ali = align();
             Vector2 coh = cohesion();
             Vector2 gl;
@@ -109,7 +111,17 @@ public class FlockScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        flock();
+        if (Leader.GetComponent<leader>().shouldFlock) {
+            flock();
+            turnTowards(Leader);
+        }
         goalPos = manager.transform.position;
-	}
+    }
+
+    public void turnTowards(GameObject target) {
+        Vector3 vectorToTarget = target.transform.position - transform.position;
+        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 3f);
+    }
 }
