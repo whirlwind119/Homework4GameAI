@@ -9,12 +9,14 @@ public class EvilFlocker : MonoBehaviour {
     private GameObject[] units;
     GameObject spawner;
     ScalableFormation script;
+    Pathfinding script2;
 
 
     // Use this for initialization
     void Start () {
         spawner = GameObject.Find("GameObject");
         script = spawner.GetComponent<ScalableFormation>();
+        script2 = spawner.GetComponent<Pathfinding>();
 	}
 	
 	// Update is called once per frame
@@ -39,6 +41,12 @@ public class EvilFlocker : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D c) {
         if (c.transform.tag == "boid") {
             script.numUnits -= 1;
+            if (script2.index == 0) {
+                script2.index = script.numUnits - 1;
+            }
+            else {
+                script2.index--;
+            }
             script.toDestroy.Add(c.gameObject);
         }
 

@@ -17,7 +17,7 @@ public class ScalableFormation : MonoBehaviour {
         Vector3 center = transform.position;
         for (int i = 0; i < numUnits; i++) {
             int a = 360 / numUnits * i;
-            Vector3 pos = RandomCircle(center, 0.75f, a);
+            Vector3 pos = RandomCircle(center, numUnits/8, a);
             units.Add((GameObject)Instantiate(prefab, pos, Quaternion.identity));
         }
         units[0].GetComponent<SpriteRenderer>().color = Color.red;
@@ -37,7 +37,7 @@ public class ScalableFormation : MonoBehaviour {
             Vector3 center = transform.position;
             for (int i = 0; i < numUnits; i++) {
                 int a = 360 / numUnits * i;
-                Vector3 pos = RandomCircle(center, 0.75f, a);
+                Vector3 pos = RandomCircle(center, ((float)numUnits)/8, a);
                 units[i].transform.position = pos;
                 units[i].transform.eulerAngles = transform.eulerAngles;
             }

@@ -38,7 +38,7 @@ public class Pathfinding : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-
+        numBoids = leader.GetComponent<ScalableFormation>().numUnits;
         holder = findTarget();
         if (move) {
             if (holder != null) {
@@ -62,7 +62,7 @@ public class Pathfinding : MonoBehaviour
         else if (moveThisBoid && holder == paths[11] && counter != numBoids) { 
             Vector3 center = leader.transform.position;
             int a = 360 / numBoids * index;
-            Vector3 pos = RandomCircle(center, 0.75f, a);
+            Vector3 pos = RandomCircle(center, ((float)numBoids) / 8, a);
             currentBoid.transform.position = pos;
             currentBoid.transform.eulerAngles = leader.transform.eulerAngles;
             resetPath(5, 12);
@@ -78,7 +78,7 @@ public class Pathfinding : MonoBehaviour
         else if (counter == numBoids) {
             Vector3 center = leader.transform.position;
             int a = 360 / numBoids * index;
-            Vector3 pos = RandomCircle(center, 0.75f, a);
+            Vector3 pos = RandomCircle(center, ((float)numBoids) / 8, a);
             currentBoid.transform.position = pos;
             currentBoid.transform.eulerAngles = leader.transform.eulerAngles;
             if (index == numBoids - 1) {

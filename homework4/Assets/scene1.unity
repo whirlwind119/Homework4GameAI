@@ -2604,8 +2604,10 @@ MonoBehaviour:
   currentBoid: {fileID: 0}
   moveNext: 1
   index: 5
+  counter: -1
   moveThisBoid: 0
   BoidsAreMoving: 0
+  allDone: 0
 --- !u!61 &1938338063
 BoxCollider2D:
   m_ObjectHideFlags: 0
