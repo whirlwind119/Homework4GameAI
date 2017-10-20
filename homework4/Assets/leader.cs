@@ -32,11 +32,6 @@ public class leader : MonoBehaviour {
         if (leaderDoSomething) {
             float mag = calculateMag(boids);
             holder = findTarget();
-            if (holder == paths[6]) {
-                shouldFlock = false;
-                goThroughTunnel();
-            }
-
             if (goingThroughTunnel) {
                 if (holder == paths[11]) {
                     boidFollowPath();

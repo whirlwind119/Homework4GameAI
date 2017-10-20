@@ -106,7 +106,7 @@ public class FlockScript : MonoBehaviour {
         }
 
 
-        applyForce(currentForce*.25f);
+        applyForce(currentForce*100f);
     }
 	
 	// Update is called once per frame
