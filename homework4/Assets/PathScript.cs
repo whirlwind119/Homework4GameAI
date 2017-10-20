@@ -5,10 +5,11 @@ using UnityEngine;
 public class PathScript : MonoBehaviour {
 
     public bool found = false;
+    public GameObject leader;
 
 	// Use this for initialization
 	void Start () {
-		
+        leader = GameObject.Find("GameObject");
 	}
 	
 	// Update is called once per frame
@@ -34,9 +35,15 @@ public class PathScript : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-       if(other.gameObject.tag == "leader" || other.gameObject.tag == "boid")
-        {
-            this.changeStatus();
+        if (leader.GetComponent<Pathfinding>().BoidsAreMoving) {
+            if (other.gameObject.tag == "boid") {
+                this.changeStatus();
+            }
+        }
+        else {
+            if (other.gameObject.tag == "leader") {
+                this.changeStatus();
+            }
         }
     }
 
