@@ -42,7 +42,6 @@ public class Pathfinding : MonoBehaviour
         holder = findTarget();
         if (move) {
             if (holder != null) {
-                Debug.Log(holder);
                 target = holder;
                 transform.Translate(Vector3.right * Time.deltaTime * 2);
             }
@@ -52,6 +51,10 @@ public class Pathfinding : MonoBehaviour
                 turnTowards(target);
             }
         }
+        else if (units[index].GetComponent<Renderer>().bounds.Intersects(holder.GetComponent<Renderer>().bounds)) {
+            holder.GetComponent<PathScript2>().found = true;
+        }
+
         else if (moveThisBoid && holder != paths[11]) {
             Vector3 vectorToTarget = holder.transform.position - currentBoid.transform.position;
             float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
@@ -59,14 +62,14 @@ public class Pathfinding : MonoBehaviour
             units[index].transform.rotation = Quaternion.Slerp(currentBoid.transform.rotation, q, Time.deltaTime * 5f);
             currentBoid.transform.Translate(Vector3.right * Time.deltaTime * 2);
         }
-        else if (moveThisBoid && holder == paths[11] && counter != numBoids) { 
+        else if (moveThisBoid && holder == paths[11] && counter != numBoids) {
             Vector3 center = leader.transform.position;
             int a = 360 / numBoids * index;
-            Vector3 pos = RandomCircle(center, ((float)numBoids) / 8, a);
+            Vector3 pos = RandomCircle(center, ((float)numBoids) / 12, a);
             currentBoid.transform.position = pos;
             currentBoid.transform.eulerAngles = leader.transform.eulerAngles;
             resetPath(5, 12);
-            if(index == numBoids-1) {
+            if (index == numBoids - 1) {
                 index = 0;
             }
             else {
@@ -75,10 +78,10 @@ public class Pathfinding : MonoBehaviour
             counter++;
             moveNextBoid();
         }
-        else if (counter == numBoids) {
+        else if (counter == numBoids-1) {
             Vector3 center = leader.transform.position;
             int a = 360 / numBoids * index;
-            Vector3 pos = RandomCircle(center, ((float)numBoids) / 8, a);
+            Vector3 pos = RandomCircle(center, ((float)numBoids) / 12, a);
             currentBoid.transform.position = pos;
             currentBoid.transform.eulerAngles = leader.transform.eulerAngles;
             if (index == numBoids - 1) {
@@ -88,12 +91,14 @@ public class Pathfinding : MonoBehaviour
                 index++;
             }
         }
-        if (counter == numBoids + 1) {
+        if (counter == numBoids) {
             allDone = true;
         }
-        if (allDone) {
+        else if (allDone) {
             sf.moveBoids = true;
             move = true;
+            BoidsAreMoving = false;
+            moveNext = false;
         }
         else if (holder == paths[5]) {
             sf.moveBoids = false;
@@ -110,7 +115,7 @@ public class Pathfinding : MonoBehaviour
     {
         int i;
         for(i = 0; i < paths.Length; i++){
-            if(paths[i].GetComponent<PathScript>().currentlyFalse() == true)
+            if(paths[i].GetComponent<PathScript2>().currentlyFalse() == true)
             {
                 return paths[i];
             }
@@ -125,13 +130,13 @@ public class Pathfinding : MonoBehaviour
             sf.moveBoids = true;
             move = true;
             BoidsAreMoving = false;
-            paths[5].GetComponent<PathScript>().found = true;
-            paths[6].GetComponent<PathScript>().found = true;
-            paths[7].GetComponent<PathScript>().found = true;
-            paths[8].GetComponent<PathScript>().found = true;
-            paths[9].GetComponent<PathScript>().found = true;
-            paths[10].GetComponent<PathScript>().found = true;
-            paths[11].GetComponent<PathScript>().found = true;
+            paths[5].GetComponent<PathScript2>().found = true;
+            paths[6].GetComponent<PathScript2>().found = true;
+            paths[7].GetComponent<PathScript2>().found = true;
+            paths[8].GetComponent<PathScript2>().found = true;
+            paths[9].GetComponent<PathScript2>().found = true;
+            paths[10].GetComponent<PathScript2>().found = true;
+            paths[11].GetComponent<PathScript2>().found = true;
 
         }
         else if (moveNext) {
@@ -147,7 +152,7 @@ public class Pathfinding : MonoBehaviour
 
     public void resetPath(int start, int end) {
         for (int i = start; i <= end; ++i) {
-            paths[i].GetComponent<PathScript>().found = false;
+            paths[i].GetComponent<PathScript2>().found = false;
         }
     }
 

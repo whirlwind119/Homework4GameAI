@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EvilFlocker : MonoBehaviour {
 
@@ -39,15 +40,23 @@ public class EvilFlocker : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D c) {
-        if (c.transform.tag == "boid") {
-            script.numUnits -= 1;
-            if (script2.index == 0) {
-                script2.index = script.numUnits - 1;
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name == "scene1") {
+            if (c.transform.tag == "boid") {
+                script.numUnits -= 1;
+                if (script2.index == 0) {
+                    script2.index = script.numUnits - 1;
+                }
+                else {
+                    script2.index--;
+                }
+                script.toDestroy.Add(c.gameObject);
             }
-            else {
-                script2.index--;
+        }
+        else {
+            if (c.transform.tag == "boid") {
+                Destroy(c.gameObject);
             }
-            script.toDestroy.Add(c.gameObject);
         }
 
     }
